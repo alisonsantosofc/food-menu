@@ -7,13 +7,16 @@
   <title>Cardápio Digital - Fast Food</title>
   <style>
     :root {
-      --main-color-400: #f8342a;
-      --main-color-500: #e52b21;
-      --main-color-600: #a21a12;
+      --main-color-400: #367ff4;
+      --main-color-500: #226add;
+      --main-color-600: #134fb0;
+      --green-color-500: #228e39;
+      --orange-color-500: #cf811b;
       --gray-color-500: #2d3139;
       --gray-color-600: #1b1d23;
-      --border-color-500: #969595; 
-      --border-color-600: #25272d;
+      --border-color-500: #969595;
+      --border-color-600: #3b3d45; 
+      --border-color-700: #282a31;
       
       --text: #ebeff3;
       --label: #979ba0;
@@ -52,10 +55,7 @@
     /* Button */
     button {
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.65rem 1.25rem 0.65rem;
+      padding: 0.65rem 1.5rem 0.65rem;
       border: none;
       border-radius: 1rem;
       color: white;
@@ -63,7 +63,7 @@
       font-weight: 500;
       transition: all 0.1s;
       background: var(--main-color-500);
-      box-shadow: 0 5px 0 var(--main-color-600);
+      box-shadow: 0 4px 0 var(--main-color-600);
     }
     button:hover {
       filter: brightness(1.1);
@@ -75,6 +75,14 @@
     button.cancel {
       background: var(--gray-color-500);
       box-shadow: 0 5px 0 var(--gray-color-600);
+    }
+    button.mini-button {
+      padding: 0;
+      width: 36px;
+      height: 32px;
+      font-size: 1rem;
+      box-shadow: 0 4px 0 var(--main-color-600);
+      margin-bottom: 2px;
     }
   
     /* Input */
@@ -103,6 +111,9 @@
       outline: none;
       border-color: var(--main-color-500);
     }
+    input.small {
+      font-size: 0.9rem;
+    }
 
     /* Number Input */
     input[type="number"]::-webkit-outer-spin-button,
@@ -120,8 +131,8 @@
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       border: 2px solid var(--main-color-500);
       border-radius: 4px;
       background-color: var(--input-bg);
@@ -140,8 +151,8 @@
       position: absolute;
       top: 40%;
       left: 50%;
-      width: 6px;
-      height: 12px;
+      width: 5px;
+      height: 10px;
       border: solid white;
       border-width: 0 2px 2px 0;
       transform: translate(-50%, -50%) rotate(45deg);
@@ -152,6 +163,44 @@
     }
     input[type="checkbox" i]:hover {
       border-color: var(--main-color-400);
+    }
+
+    /* Select */
+    select {
+      appearance: none;
+      background: var(--input-bg);
+      border-radius: 1rem;
+      font-size: 1rem;
+      width: 100%;
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--border-color-500);
+    }
+    select::placeholder {
+      color: var(--label);
+    }
+    select::-moz-selection {
+      background-color: var(--main-color-500);
+      color: var(--text);
+    }
+    select:focus-visible {
+      outline: none;
+      border-color: var(--main-color-500);
+    }
+    select option{
+      display: block;
+      padding: 0.5rem 0;
+    }
+    .select {
+      display: flex;
+      position: relative;
+    }
+    .select svg {
+      width: 0.9rem;
+      height: 0.9rem;
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
     }
 
     .main-content {
@@ -167,6 +216,10 @@
       background: var(--card-bg);
       border: 1px solid var(--border-color-600);
       border-radius: 0.5rem;
+    }
+
+    .price {
+      font-weight: bold;
     }
     
     .title-container {
@@ -204,7 +257,6 @@
       align-items: center;
       gap: 1rem;
     }
-
     .item-controls input {
       width: 50px;
       text-align: center;
@@ -215,9 +267,26 @@
       color: var(--label);
     }
 
-    .cart {
+    .input-label {
+      display: inline-block;
+      color: var(--label);
+      width: 100%;
+      text-align: left;
+      padding: 0.5rem;
+      font-size: 0.85rem;
     }
 
+    .cart {
+      height: 100%;
+    }
+    .cart .bottom-content {
+      display: flex;
+      justify-content: space-between;
+    }
+    .cart-items {
+      min-width: 100%;
+      min-height: 80%;
+    }
     .cart-item {
       display: flex;
       justify-content: space-between;
@@ -232,12 +301,24 @@
     .cart-item:hover {
       background: var(--item-hover);
     }
+    .cart-item .details-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .cart-item .resume-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .cart-item .total-amount {
+      font-size: 0.9rem;
+    }
 
     .quantity-controls {
       display: flex;
       align-items: center;
     }
-
     .quantity-controls input {
       width: 50px;
       text-align: center;
@@ -245,12 +326,35 @@
     }
 
     .total {
+      font-size: 0.9rem;
+      padding: 1rem 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .total .total-amount {
+      margin-top: 4px;
+      font-size: 1.75rem;
       font-weight: bold;
-      margin-top: 10px;
     }
 
-    .checkout {
-      margin-top: 20px;
+    .order-summary {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color-500);
+    }
+    .order-summary h3 {
+      width: 100%;
+      text-align: left;
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color-500);
+    }
+    .order-summary .order-summary-item {
+      font-size: 0.9rem;
     }
 
     .modal {
@@ -263,31 +367,56 @@
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
     }
-
     .modal-content {
       background: var(--background);
       margin: 15% auto;
       padding: 20px;
-      border: 1px solid var(--border-color-600);
-      width: 400px;
+      border: 1px solid var(--border-color-700);
+      width: 500px;
       max-width: 80%;
       max-height: 80%;
       text-align: center;
       border-radius: 8px;
     }
-
     .modal-content h2 {
       margin-bottom: 20px;
     }
-
     .modal-buttons {
-      margin-top: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
     }
-
-    .modal-buttons button {
-      margin: 0 10px;
-      padding: 10px 20px;
-      cursor: pointer;
+    
+    .toast {
+      z-index: 99;
+      visibility: hidden;
+      min-width: 250px;
+      color: white;
+      text-align: center;
+      border-radius: 0.5rem;
+      padding: 16px;
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      bottom: 30px;
+      font-size: 17px;
+      opacity: 0;
+      transform: translateX(-50%);
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+    .toast.success {
+      background: var(--green-color-500);
+    }
+    .toast.warning {
+      background: var(--orange-color-500);
+    }
+    .toast.error {
+      background: var(--main-color-500);
+    }
+    .toast.show {
+      visibility: visible;
+      opacity: 1;
     }
   </style>
 </head>
@@ -315,7 +444,7 @@
             <span>Cheeseburger - <i class="label">Delicioso hambúrguer com queijo</i></span>
             
             <div class="item-controls">
-              <span>R$ 12,99</span>
+              <span class="price">R$ 12,99</span>
               <button onclick="addToCart('Cheeseburger', 12.99)">Adicionar</button>
             </div>
           </div>
@@ -323,7 +452,7 @@
             <span>Hambúrguer de Frango - <i class="label">Hambúrguer com peito de frango grelhado</i></span>
             
             <div class="item-controls">
-              <span>R$ 11,99</span>
+              <span class="price">R$ 11,99</span>
               <button onclick="addToCart('Hambúrguer de Frango', 11.99)">Adicionar</button>
             </div>
           </div>
@@ -344,7 +473,7 @@
             <span>Coxinha - <i class="label">Coxinha crocante e saborosa</i></span>
             
             <div class="item-controls">
-              <span>R$ 5,99</span>
+              <span class="price">R$ 5,99</span>
               <button onclick="addToCart('Coxinha', 5.99)">Adicionar</button>
             </div>
           </div>
@@ -352,7 +481,7 @@
             <span>Esfiha - <i class="label">Esfiha recheada com carne</i></span>
             
             <div class="item-controls">
-              <span>R$ 4,99</span>
+              <span class="price">R$ 4,99</span>
               <button onclick="addToCart('Esfiha', 4.99)">Adicionar</button>
             </div>
           </div>
@@ -377,7 +506,7 @@
             <span>Refrigerante - <i class="label">Lata de refrigerante 350ml</i></span>
             
             <div class="item-controls">
-              <span>R$ 4,50</span>
+              <span class="price">R$ 4,50</span>
               <button onclick="addToCart('Refrigerante', 4.50)">Adicionar</button>
             </div>
           </div>
@@ -385,7 +514,7 @@
             <span>Suco Natural - <i class="label">Suco de frutas frescas 500ml</i></span>
             
             <div class="item-controls">
-              <span>R$ 6,00</span>
+              <span class="price">R$ 6,00</span>
               <button onclick="addToCart('Suco Natural', 6.00)">Adicionar</button>
             </div>
           </div>
@@ -402,12 +531,18 @@
         <h2>Carrinho de Compras</h2>
       </div>
       
-      <div id="cart-items">
+      <div id="cart-items" class="cart-items">
         <!-- Itens selecionados serão exibidos aqui -->
       </div>
-      <div class="total">Total: R$ <span id="total-amount">0.00</span></div>
-      <!-- <button id="add-more">Adicionar mais itens</button> -->
-      <button id="checkout">Finalizar Pedido</button>
+
+      <div class="bottom-content">
+        <div class="total">
+          <span>Valor total </span>
+          <span id="total-amount" class="total-amount">R$ 0,00</span>
+        </div>
+  
+        <button id="checkout">Finalizar Pedido</button>
+      </div>
     </div>
   </div>
 
@@ -415,34 +550,56 @@
   <div id="checkout-modal" class="modal">
     <div class="modal-content">
       <h2>Finalizar Pedido</h2>
-      <div id="order-summary">
+      <div id="order-summary" class="order-summary">
         <!-- Resumo do pedido será exibido aqui -->
       </div>
       <div>
-        <label for="payment-method">Forma de Pagamento:</label>
-        <select id="payment-method">
-          <option value="debit">Cartão de Débito</option>
-          <option value="credit">Cartão de Crédito</option>
-          <option value="pix">Pix</option>
-        </select>
+        <label for="payment-method" class="input-label">Forma de Pagamento</label>
+        <div class="select">
+          <svg version="1.1" id="Capa_1" x="0px" y="0px" width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;" xmlns="http://www.w3.org/2000/svg">
+            <g>
+              <path d="M282.082,76.511l-14.274-14.273c-1.902-1.906-4.093-2.856-6.57-2.856c-2.471,0-4.661,0.95-6.563,2.856L142.466,174.441 L30.262,62.241c-1.903-1.906-4.093-2.856-6.567-2.856c-2.475,0-4.665,0.95-6.567,2.856L2.856,76.515C0.95,78.417,0,80.607,0,83.082 c0,2.473,0.953,4.663,2.856,6.565l133.043,133.046c1.902,1.903,4.093,2.854,6.567,2.854s4.661-0.951,6.562-2.854L282.082,89.647 c1.902-1.903,2.847-4.093,2.847-6.565C284.929,80.607,283.984,78.417,282.082,76.511z" style="fill: rgb(250, 250, 250);"/>
+            </g>
+          </svg>
+          <select id="payment-method">
+            <option value="debit">
+              <div class="option-content">
+                Cartão de Débito
+              </div>
+            </option>
+            <option value="credit">
+              <div class="option-content">
+                Cartão de Crédito
+              </div>
+            </option>
+            <option value="pix">
+              <div class="option-content">
+                Pix
+              </div>
+            </option>
+          </select>
+        </div>
       </div>
       <div>
-        <label for="customer-name">Nome Completo:</label>
+        <label for="customer-name" class="input-label">Nome Completo</label>
         <input type="text" id="customer-name">
       </div>
       <div>
-        <label for="customer-address">Endereço para Entrega:</label>
+        <label for="customer-address" class="input-label">Endereço para Entrega</label>
         <input type="text" id="customer-address">
       </div>
       <div class="modal-buttons">
-        <button id="checkout-confirm">Confirmar Pedido</button>
-        <button id="checkout-cancel" class="cancel">Cancelar</button>
+        <button id="checkout-cancel" class="cancel" type="button">Cancelar</button>
+        <button id="checkout-confirm" type="button" onclick="finishOrder()">Confirmar Pedido</button>
       </div>
     </div>
   </div>
 
+  <!-- Toast Message -->
+  <div id="toast" class="toast"></div>
+
   <script>
-    const cartItems = [];
+    let cartItems = [];
     const cartElement = document.getElementById('cart-items');
     const totalAmountElement = document.getElementById('total-amount');
     const checkoutModal = document.getElementById('checkout-modal');
@@ -464,7 +621,6 @@
         cartItems.push({ name, price, quantity, included: true });
       }
       updateCart();
-      quantityInput.value = 1; // Resetar quantidade para 1 após adicionar ao carrinho
     }
 
     function updateCart() {
@@ -473,6 +629,9 @@
       cartItems.forEach((item, index) => {
         const itemElement = document.createElement('div');
         itemElement.className = 'cart-item';
+
+        const itemDetailsContainer = document.createElement('div');
+        itemDetailsContainer.className = 'details-container';
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -483,21 +642,31 @@
         });
 
         const itemDetails = document.createElement('span');
-        itemDetails.textContent = `${item.name} - R$ ${(item.price * item.quantity).toFixed(2)}`;
+        itemDetails.textContent = `${item.name}`;
+
+        itemDetailsContainer.appendChild(checkbox);
+        itemDetailsContainer.appendChild(itemDetails);
+
+        const itemTotalAmount = document.createElement('span');
+        itemTotalAmount.className = 'total-amount price';
+        itemTotalAmount.textContent = `${formatFloatValue((item.price * item.quantity).toFixed(2))}`;
 
         const quantityControls = document.createElement('div');
         quantityControls.className = 'quantity-controls';
 
         const decrementButton = document.createElement('button');
+        decrementButton.classList.add("mini-button");
         decrementButton.textContent = '-';
         decrementButton.onclick = () => changeQuantity(index, -1);
 
         const quantityInput = document.createElement('input');
+        quantityInput.classList.add("small");
         quantityInput.type = 'number';
         quantityInput.value = item.quantity;
         quantityInput.onchange = (e) => setQuantity(index, parseInt(e.target.value));
 
         const incrementButton = document.createElement('button');
+        incrementButton.classList.add("mini-button");
         incrementButton.textContent = '+';
         incrementButton.onclick = () => changeQuantity(index, 1);
 
@@ -505,9 +674,14 @@
         quantityControls.appendChild(quantityInput);
         quantityControls.appendChild(incrementButton);
 
-        itemElement.appendChild(checkbox);
-        itemElement.appendChild(itemDetails);
-        itemElement.appendChild(quantityControls);
+        const itemResumeContainer = document.createElement('div');
+        itemResumeContainer.className = 'resume-container';
+
+        itemResumeContainer.appendChild(itemTotalAmount);
+        itemResumeContainer.appendChild(quantityControls);
+
+        itemElement.appendChild(itemDetailsContainer);
+        itemElement.appendChild(itemResumeContainer);
 
         cartElement.appendChild(itemElement);
 
@@ -515,7 +689,7 @@
           totalAmount += item.price * item.quantity;
         }
       });
-      totalAmountElement.textContent = totalAmount.toFixed(2);
+      totalAmountElement.textContent = formatFloatValue(totalAmount.toFixed(2));
     }
 
     function changeQuantity(index, delta) {
@@ -531,16 +705,23 @@
     }
 
     document.getElementById('checkout').addEventListener('click', function () {
+      if (!cartItems.length) {
+        showToastMessage('Nenhum item foi adicionado no carrinho.')
+        return;
+      }
+
       showModal(checkoutModal);
       updateOrderSummary();
     });
 
     function updateOrderSummary() {
-      orderSummary.innerHTML = `<h3>Resumo do Pedido</h3>`;
+      orderSummary.innerHTML = `<h3>Itens no Carrinho</h3>`;
       cartItems.forEach(item => {
         if (item.included) {
           const summaryItem = document.createElement('div');
-          summaryItem.textContent = `${item.name} x${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}`;
+          summaryItem.classList.add("order-summary-item");
+          // summaryItem.textContent = `${item.name} x${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}`;
+          summaryItem.textContent = `${item.quantity}x - ${item.name}`;
           orderSummary.appendChild(summaryItem);
         }
       });
@@ -558,10 +739,50 @@
       closeModal(checkoutModal);
     });
 
-    document.getElementById('checkout-confirm').addEventListener('click', function () {
-      alert('Pedido confirmado! Obrigado pela compra.');
-      closeModal(checkoutModal);
-    });
+    function showToastMessage(message, type = 'warning') {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = `toast show ${type}`;
+      
+      setTimeout(() => {
+        toast.className = toast.className.replace("show", "");
+      }, 3000);
+    }
+
+    function finishOrder() {
+      const customerNameInput = document.getElementById('customer-name');
+      let name = customerNameInput.value;
+      if (!name) {
+        showToastMessage('Nome está inválido ou não foi inserido.');
+        return;
+      }
+
+      const customerAddressInput = document.getElementById('customer-address');
+      let address = customerAddressInput.value;
+      if (!address) {
+        showToastMessage('Endereço de entrega está inválido ou não foi inserido.');
+        return;
+      }
+
+      if (name && address) {
+        // reset cart state
+        cartItems = [];
+        cartElement.innerHTML = '';
+        customerNameInput.value = '';
+        customerAddressInput.value = '';
+
+        closeModal(checkoutModal);
+        showToastMessage('Pedido confirmado! Obrigado pela compra.', 'success');
+      }
+    }
+
+    function formatFloatValue(value) {
+      return new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2,
+      }).format(value);
+    }
   </script>
 </body>
 </html>
