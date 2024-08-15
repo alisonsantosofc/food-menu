@@ -44,6 +44,18 @@
       max-height: 100vh;
       overflow: hidden;
     }
+    body *::-webkit-scrollbar {
+      width: 12px;
+    }
+    body *::-webkit-scrollbar-track {
+      background: var(--border-color-700);
+      border-radius: 4px;
+    }
+    body *::-webkit-scrollbar-thumb {
+      background-color: var(--border-color-500);
+      border-radius: 20px;
+      border: 3px solid var(--border-color-700);
+    }
 
     h1 {
       height: 10%;
@@ -194,6 +206,7 @@
     .select {
       display: flex;
       position: relative;
+      width: 100%;
     }
     .select svg {
       width: 0.9rem;
@@ -211,6 +224,11 @@
       width: 100%;
     }
 
+    .scrolling-container {
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
     .card {
       padding: 1rem;
       background: var(--card-bg);
@@ -220,6 +238,19 @@
 
     .price {
       font-weight: bold;
+    }
+
+    .label {
+      color: var(--label);
+    }
+
+    .input-label {
+      display: inline-block;
+      color: var(--label);
+      width: 100%;
+      text-align: left;
+      padding: 0.5rem;
+      font-size: 0.85rem;
     }
     
     .title-container {
@@ -237,6 +268,11 @@
       flex-direction: column;
     }
 
+    .items-container {
+      width: 100%;
+      height: 180px;
+    }
+    
     .item {
       display: flex;
       justify-content: space-between;
@@ -263,30 +299,31 @@
       margin: 0 5px;
     }
 
-    .label {
-      color: var(--label);
-    }
-
-    .input-label {
-      display: inline-block;
-      color: var(--label);
-      width: 100%;
-      text-align: left;
-      padding: 0.5rem;
-      font-size: 0.85rem;
-    }
-
     .cart {
       height: 100%;
     }
     .cart .bottom-content {
       display: flex;
       justify-content: space-between;
+      align-items: flex-end;
     }
+
     .cart-items {
-      min-width: 100%;
-      min-height: 80%;
+      width: 100%;
+      height: 600px;
     }
+    .cart-items .no-items {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cart-items .no-items svg {
+      width: 80%;
+      height: 80%;
+    }
+
     .cart-item {
       display: flex;
       justify-content: space-between;
@@ -327,9 +364,9 @@
 
     .total {
       font-size: 0.9rem;
-      padding: 1rem 0;
       display: flex;
       flex-direction: column;
+      padding-top: 2rem;
     }
     .total .total-amount {
       margin-top: 4px;
@@ -338,23 +375,39 @@
     }
 
     .order-summary {
+      width: 100%;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       margin-top: 2rem;
       margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.25rem;
       border-bottom: 1px solid var(--border-color-500);
     }
     .order-summary h3 {
       width: 100%;
       text-align: left;
-      margin-bottom: 0.5rem;
-      padding-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
+      padding-bottom: 1rem;
       border-bottom: 1px solid var(--border-color-500);
+    }
+    .order-summary .order-summary-items {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      height: 120px;
     }
     .order-summary .order-summary-item {
       font-size: 0.9rem;
+    }
+
+    .delivery-info {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+      margin-bottom: 0.5rem;
     }
 
     .modal {
@@ -366,6 +419,13 @@
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-control {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
     .modal-content {
       background: var(--background);
@@ -391,7 +451,7 @@
     .toast {
       z-index: 99;
       visibility: hidden;
-      min-width: 250px;
+      width: 468px;
       color: white;
       text-align: center;
       border-radius: 0.5rem;
@@ -439,21 +499,45 @@
           <h2>Hambúrgueres</h2>
         </div>
         
-        <div class="items-container">
+        <div id="burgers-items" class="items-container scrolling-container">
           <div class="item">
             <span>Cheeseburger - <i class="label">Delicioso hambúrguer com queijo</i></span>
             
             <div class="item-controls">
-              <span class="price">R$ 12,99</span>
-              <button onclick="addToCart('Cheeseburger', 12.99)">Adicionar</button>
+              <span class="price">R$ 12,50</span>
+              <button onclick="addToCart('Cheeseburger', 12.50)">Adicionar</button>
+            </div>
+          </div>
+          <div class="item">
+            <span>Cheeseburger Bacon - <i class="label">Delicioso hambúrguer com queijo e bacon</i></span>
+            
+            <div class="item-controls">
+              <span class="price">R$ 14,00</span>
+              <button onclick="addToCart('Cheeseburger Bacon', 14.00)">Adicionar</button>
             </div>
           </div>
           <div class="item">
             <span>Hambúrguer de Frango - <i class="label">Hambúrguer com peito de frango grelhado</i></span>
             
             <div class="item-controls">
-              <span class="price">R$ 11,99</span>
-              <button onclick="addToCart('Hambúrguer de Frango', 11.99)">Adicionar</button>
+              <span class="price">R$ 16,00</span>
+              <button onclick="addToCart('Hambúrguer de Frango', 16.00)">Adicionar</button>
+            </div>
+          </div>
+          <div class="item">
+            <span>Hambúrguer Gourmet - <i class="label">Hambúrguer com carne artesanal grelhada</i></span>
+            
+            <div class="item-controls">
+              <span class="price">R$ 17,50</span>
+              <button onclick="addToCart('Hambúrguer Gourmet', 17.50)">Adicionar</button>
+            </div>
+          </div>
+          <div class="item">
+            <span>Hambúrguer Vegano - <i class="label">Hambúrguer vegano recheado com salada</i></span>
+            
+            <div class="item-controls">
+              <span class="price">R$ 21,00</span>
+              <button onclick="addToCart('Hambúrguer Vegano', 21.00)">Adicionar</button>
             </div>
           </div>
         </div>
@@ -468,21 +552,53 @@
           <h2>Salgados</h2>
         </div>
         
-        <div class="items-container">
+        <div id="salty-items" class="items-container scrolling-container">
           <div class="item">
-            <span>Coxinha - <i class="label">Coxinha crocante e saborosa</i></span>
+            <span>Coxinha de Frango - <i class="label">Coxinha crocante e saborosa</i></span>
             
             <div class="item-controls">
-              <span class="price">R$ 5,99</span>
-              <button onclick="addToCart('Coxinha', 5.99)">Adicionar</button>
+              <span class="price">R$ 5,00</span>
+              <button onclick="addToCart('Coxinha de Frango', 5.00)">Adicionar</button>
             </div>
           </div>
           <div class="item">
-            <span>Esfiha - <i class="label">Esfiha recheada com carne</i></span>
+            <span>Pastel de Queijo - <i class="label">Pastel de queijo coalho</i></span>
             
             <div class="item-controls">
-              <span class="price">R$ 4,99</span>
-              <button onclick="addToCart('Esfiha', 4.99)">Adicionar</button>
+              <span class="price">R$ 7,00</span>
+              <button onclick="addToCart('Pastel de Queijo', 7.00)">Adicionar</button>
+            </div>
+          </div>
+          <div class="item">
+            <span>Esfiha de Carne - <i class="label">Esfiha recheada com carne</i></span>
+            
+            <div class="item-controls">
+              <span class="price">R$ 4,50</span>
+              <button onclick="addToCart('Esfiha de Carne', 4.50)">Adicionar</button>
+            </div>
+          </div>
+          <div class="item">
+            <span>Empada de Frango - <i class="label">Fatia de pizza tradicional</i></span>
+            
+            <div class="item-controls">
+              <span class="price">R$ 5,00</span>
+              <button onclick="addToCart('Empada de Frango', 5.00)">Adicionar</button>
+            </div>
+          </div>
+          <div class="item">
+            <span>Fogazza de Carne - <i class="label">Fogazza recheado com carne artesanal</i></span>
+            
+            <div class="item-controls">
+              <span class="price">R$ 7,50</span>
+              <button onclick="addToCart('Fogazza de Carne', 7.50)">Adicionar</button>
+            </div>
+          </div>
+          <div class="item">
+            <span>Mini Pizza - <i class="label">Fatia de pizza tradicional</i></span>
+            
+            <div class="item-controls">
+              <span class="price">R$ 8,50</span>
+              <button onclick="addToCart('Mini Pizza', 8.50)">Adicionar</button>
             </div>
           </div>
         </div>
@@ -501,7 +617,15 @@
           <h2>Bebidas</h2>
         </div>
         
-        <div class="items-container">
+        <div id="drinks-items" class="items-container scrolling-container">
+          <div class="item">
+            <span>Água Mineral - <i class="label">Garrafa de água 250ml</i></span>
+            
+            <div class="item-controls">
+              <span class="price">R$ 2,00</span>
+              <button onclick="addToCart('Água Mineral', 2.00)">Adicionar</button>
+            </div>
+          </div>
           <div class="item">
             <span>Refrigerante - <i class="label">Lata de refrigerante 350ml</i></span>
             
@@ -518,6 +642,14 @@
               <button onclick="addToCart('Suco Natural', 6.00)">Adicionar</button>
             </div>
           </div>
+          <div class="item">
+            <span>Milk Shake - <i class="label">Milk shake de chocolate 750ml</i></span>
+            
+            <div class="item-controls">
+              <span class="price">R$ 12,00</span>
+              <button onclick="addToCart('Milk Shake', 12.00)">Adicionar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -531,8 +663,16 @@
         <h2>Carrinho de Compras</h2>
       </div>
       
-      <div id="cart-items" class="cart-items">
+      <div id="cart-items" class="cart-items scrolling-container">
         <!-- Itens selecionados serão exibidos aqui -->
+         <div class="no-items">
+          <svg data-name="Layer 1" viewBox="0 0 95 118.75" x="0px" y="0px" xmlns="http://www.w3.org/2000/svg">
+            <path class="cls-1" d="M 41.531 62.407 L 32.387 62.407 L 31.94 57.797 L 41.98 57.797 L 41.531 62.407 Z M 44.747 75.739 C 47.711 75.739 49.565 78.947 48.083 81.514 C 46.601 84.081 42.896 84.082 41.413 81.516 C 40.541 80.007 40.792 78.099 42.025 76.867 C 42.746 76.144 43.726 75.737 44.747 75.739 Z M 30.377 75.739 C 33.341 75.739 35.193 78.947 33.712 81.514 C 32.231 84.081 28.526 84.082 27.043 81.516 C 26.171 80.007 26.422 78.099 27.655 76.867 C 28.376 76.144 29.356 75.737 30.377 75.739 Z M 19.721 48.997 L 29.11 48.997 L 29.742 55.796 L 19.496 55.796 L 17.415 48.137 C 17.276 47.583 16.774 47.199 16.204 47.212 L 7.567 47.212 C 6.797 47.212 6.316 46.378 6.701 45.712 C 6.881 45.403 7.211 45.212 7.567 45.212 L 16.204 45.212 C 17.675 45.207 18.965 46.193 19.344 47.613 L 19.721 48.997 Z M 31.11 48.997 L 42.751 48.997 L 42.176 55.796 L 31.743 55.796 L 31.111 48.997 L 31.11 48.997 Z M 44.752 48.997 L 52.786 48.997 C 55.28 48.981 57.095 51.356 56.426 53.757 L 55.871 55.796 L 44.176 55.796 L 44.753 48.997 L 44.752 48.997 Z M 55.328 57.794 L 54.072 62.406 L 43.533 62.406 L 43.983 57.794 L 55.328 57.794 Z M 53.528 64.406 L 52.436 68.421 C 51.996 70.067 50.501 71.211 48.796 71.203 L 42.58 71.203 L 43.34 64.406 L 53.528 64.406 Z M 40.578 71.206 L 33.27 71.206 L 32.582 64.407 L 41.336 64.407 L 40.578 71.206 Z M 31.267 71.206 L 30.581 64.407 L 21.836 64.407 L 24.17 72.996 C 24.55 74.417 25.84 75.402 27.311 75.397 L 48.041 75.397 C 48.326 75.387 48.605 75.482 48.821 75.667 L 50.243 76.796 C 50.875 77.236 51.746 76.826 51.811 76.059 C 51.836 75.747 51.716 75.442 51.485 75.232 L 50.065 74.103 C 49.491 73.642 48.777 73.392 48.041 73.396 L 27.311 73.396 C 26.741 73.407 26.238 73.024 26.1 72.469 L 25.755 71.203 L 31.267 71.206 Z M 21.292 62.407 L 20.04 57.797 L 29.936 57.797 L 30.386 62.407 L 21.292 62.407 Z" style="fill: rgb(11, 14, 21);"/>
+            <g transform="matrix(0.465755, 0, 0, 0.465755, 44.087738, 14.104889)">
+              <path d="M76.831,16.012c-1.593-0.242-3.219-0.364-4.831-0.364c-16.121,0-27.581,15.674-29.646,31.156   c-8.781-0.746-14.312-2.617-14.362-2.635c-1.192-0.42-2.597-0.001-3.37,1.001c-0.789,1.027-0.832,2.438-0.062,3.572l22.955,28.939   C48.074,78.507,49.003,79,50,79s1.926-0.493,2.439-1.258l23.045-29.061c0.699-1.033,0.683-2.409-0.042-3.423   c-0.711-0.999-2.014-1.475-3.222-1.156c-4.55,1.226-9.262,2.087-14.022,2.563c0.667-8.721,3.853-26.438,18.633-28.678   c0.489-0.073,0.851-0.494,0.851-0.988S77.32,16.085,76.831,16.012z" style="fill: rgb(11, 14, 21);"/>
+            </g>
+          </svg>
+         </div>
       </div>
 
       <div class="bottom-content">
@@ -541,19 +681,25 @@
           <span id="total-amount" class="total-amount">R$ 0,00</span>
         </div>
   
-        <button id="checkout">Finalizar Pedido</button>
+        <div>
+          <button id="checkout">Finalizar Pedido</button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Modal de Finalização -->
   <div id="checkout-modal" class="modal">
-    <div class="modal-content">
-      <h2>Finalizar Pedido</h2>
-      <div id="order-summary" class="order-summary">
-        <!-- Resumo do pedido será exibido aqui -->
-      </div>
-      <div>
+    <div class="modal-control">
+      <div class="modal-content">
+        <h2>Finalizar Pedido</h2>
+        <div id="order-summary" class="order-summary">
+          <!-- Resumo do pedido será exibido aqui -->
+        </div>
+        <div class="delivery-info">
+          <h3>Informações para Entrega</h3>
+        </div>
+
         <label for="payment-method" class="input-label">Forma de Pagamento</label>
         <div class="select">
           <svg version="1.1" id="Capa_1" x="0px" y="0px" width="284.929px" height="284.929px" viewBox="0 0 284.929 284.929" style="enable-background:new 0 0 284.929 284.929;" xmlns="http://www.w3.org/2000/svg">
@@ -579,18 +725,19 @@
             </option>
           </select>
         </div>
-      </div>
-      <div>
-        <label for="customer-name" class="input-label">Nome Completo</label>
-        <input type="text" id="customer-name">
-      </div>
-      <div>
-        <label for="customer-address" class="input-label">Endereço para Entrega</label>
-        <input type="text" id="customer-address">
-      </div>
-      <div class="modal-buttons">
-        <button id="checkout-cancel" class="cancel" type="button">Cancelar</button>
-        <button id="checkout-confirm" type="button" onclick="finishOrder()">Confirmar Pedido</button>
+        <div>
+          <label for="customer-name" class="input-label">Nome do Cliente</label>
+          <input type="text" id="customer-name">
+        </div>
+        <div>
+          <label for="customer-address" class="input-label">Endereço para Entrega</label>
+          <input type="text" id="customer-address">
+        </div>
+        
+        <div class="modal-buttons">
+          <button id="checkout-cancel" class="cancel" type="button">Cancelar</button>
+          <button id="checkout-confirm" type="button" onclick="finishOrder()">Confirmar Pedido</button>
+        </div>
       </div>
     </div>
   </div>
@@ -599,6 +746,9 @@
   <div id="toast" class="toast"></div>
 
   <script>
+    const saltyItems = document.getElementsByClassName('salty-items');
+    const drinksItems = document.getElementsByClassName('drinks-items');
+
     let cartItems = [];
     const cartElement = document.getElementById('cart-items');
     const totalAmountElement = document.getElementById('total-amount');
@@ -715,16 +865,21 @@
     });
 
     function updateOrderSummary() {
-      orderSummary.innerHTML = `<h3>Itens no Carrinho</h3>`;
+      orderSummary.innerHTML = `<h3 class="delivery-info">Itens no Carrinho</h3>`;
+
+      const orderSummaryItems = document.createElement('div');
+      orderSummaryItems.className = 'order-summary-items scrolling-container';
+
       cartItems.forEach(item => {
         if (item.included) {
           const summaryItem = document.createElement('div');
           summaryItem.classList.add("order-summary-item");
           // summaryItem.textContent = `${item.name} x${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}`;
           summaryItem.textContent = `${item.quantity}x - ${item.name}`;
-          orderSummary.appendChild(summaryItem);
+          orderSummaryItems.appendChild(summaryItem);
         }
       });
+      orderSummary.appendChild(orderSummaryItems);
     }
 
     function showModal(modal) {
@@ -767,7 +922,15 @@
       if (name && address) {
         // reset cart state
         cartItems = [];
-        cartElement.innerHTML = '';
+        totalAmountElement.textContent = formatFloatValue(0);
+        cartElement.innerHTML = `<div class="no-items">
+          <svg data-name="Layer 1" viewBox="0 0 95 118.75" x="0px" y="0px" xmlns="http://www.w3.org/2000/svg">
+            <path class="cls-1" d="M 41.531 62.407 L 32.387 62.407 L 31.94 57.797 L 41.98 57.797 L 41.531 62.407 Z M 44.747 75.739 C 47.711 75.739 49.565 78.947 48.083 81.514 C 46.601 84.081 42.896 84.082 41.413 81.516 C 40.541 80.007 40.792 78.099 42.025 76.867 C 42.746 76.144 43.726 75.737 44.747 75.739 Z M 30.377 75.739 C 33.341 75.739 35.193 78.947 33.712 81.514 C 32.231 84.081 28.526 84.082 27.043 81.516 C 26.171 80.007 26.422 78.099 27.655 76.867 C 28.376 76.144 29.356 75.737 30.377 75.739 Z M 19.721 48.997 L 29.11 48.997 L 29.742 55.796 L 19.496 55.796 L 17.415 48.137 C 17.276 47.583 16.774 47.199 16.204 47.212 L 7.567 47.212 C 6.797 47.212 6.316 46.378 6.701 45.712 C 6.881 45.403 7.211 45.212 7.567 45.212 L 16.204 45.212 C 17.675 45.207 18.965 46.193 19.344 47.613 L 19.721 48.997 Z M 31.11 48.997 L 42.751 48.997 L 42.176 55.796 L 31.743 55.796 L 31.111 48.997 L 31.11 48.997 Z M 44.752 48.997 L 52.786 48.997 C 55.28 48.981 57.095 51.356 56.426 53.757 L 55.871 55.796 L 44.176 55.796 L 44.753 48.997 L 44.752 48.997 Z M 55.328 57.794 L 54.072 62.406 L 43.533 62.406 L 43.983 57.794 L 55.328 57.794 Z M 53.528 64.406 L 52.436 68.421 C 51.996 70.067 50.501 71.211 48.796 71.203 L 42.58 71.203 L 43.34 64.406 L 53.528 64.406 Z M 40.578 71.206 L 33.27 71.206 L 32.582 64.407 L 41.336 64.407 L 40.578 71.206 Z M 31.267 71.206 L 30.581 64.407 L 21.836 64.407 L 24.17 72.996 C 24.55 74.417 25.84 75.402 27.311 75.397 L 48.041 75.397 C 48.326 75.387 48.605 75.482 48.821 75.667 L 50.243 76.796 C 50.875 77.236 51.746 76.826 51.811 76.059 C 51.836 75.747 51.716 75.442 51.485 75.232 L 50.065 74.103 C 49.491 73.642 48.777 73.392 48.041 73.396 L 27.311 73.396 C 26.741 73.407 26.238 73.024 26.1 72.469 L 25.755 71.203 L 31.267 71.206 Z M 21.292 62.407 L 20.04 57.797 L 29.936 57.797 L 30.386 62.407 L 21.292 62.407 Z" style="fill: rgb(11, 14, 21);"/>
+            <g transform="matrix(0.465755, 0, 0, 0.465755, 44.087738, 14.104889)">
+              <path d="M76.831,16.012c-1.593-0.242-3.219-0.364-4.831-0.364c-16.121,0-27.581,15.674-29.646,31.156   c-8.781-0.746-14.312-2.617-14.362-2.635c-1.192-0.42-2.597-0.001-3.37,1.001c-0.789,1.027-0.832,2.438-0.062,3.572l22.955,28.939   C48.074,78.507,49.003,79,50,79s1.926-0.493,2.439-1.258l23.045-29.061c0.699-1.033,0.683-2.409-0.042-3.423   c-0.711-0.999-2.014-1.475-3.222-1.156c-4.55,1.226-9.262,2.087-14.022,2.563c0.667-8.721,3.853-26.438,18.633-28.678   c0.489-0.073,0.851-0.494,0.851-0.988S77.32,16.085,76.831,16.012z" style="fill: rgb(11, 14, 21);"/>
+            </g>
+          </svg>
+         </div>`;
         customerNameInput.value = '';
         customerAddressInput.value = '';
 
